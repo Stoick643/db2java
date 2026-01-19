@@ -75,6 +75,45 @@ public class Tppropertycrs_8637_Mapper implements PropertyMapper<Tppropertycrs> 
     }
 
     @Override
+    public void updateList(Tppropertycrs obj, List<PCharacteristicVAO> characteristics) {
+        updateOrAdd(characteristics, 8636, obj.getTpcharcrsyesno(), "number");
+        updateOrAdd(characteristics, 12665, obj.getTpcharcrsnotesentdate(), "date");
+        updateOrAdd(characteristics, 12666, obj.getTpcharcrsreceivedconfirmationdate(), "date");
+        updateOrAdd(characteristics, 12667, obj.getTpcharcrsvalidbegindate(), "date");
+    }
+
+    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {
+        for (PCharacteristicVAO pch : list) {
+            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {
+                return pch;
+            }
+        }
+        return null;
+    }
+
+    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {
+        if (value == null) return;
+        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);
+        if (existing != null) {
+            setValue(existing, value, type);
+        } else {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setTp_character(tpChar);
+            setValue(pch, value, type);
+            list.add(pch);
+        }
+    }
+
+    private void setValue(PCharacteristicVAO pch, Object value, String type) {
+        switch (type) {
+            case "desc": pch.setPch_desc((String) value); break;
+            case "number": pch.setPch_number((Integer) value); break;
+            case "date": pch.setPch_date((SimpleDate) value); break;
+            case "value": pch.setPch_value((BigDecimal) value); break;
+        }
+    }
+
+    @Override
     public Class<Tppropertycrs> getPropertyClass() {
         return Tppropertycrs.class;
     }

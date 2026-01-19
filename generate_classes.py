@@ -365,6 +365,55 @@ def generate_mapper_class(prop: Property) -> str:
     lines.append("    }")
     lines.append("")
 
+    # updateList method
+    lines.append("    @Override")
+    lines.append(f"    public void updateList({leaf_class_name} obj, List<PCharacteristicVAO> characteristics) {{")
+
+    for char in prop.characteristics:
+        for f in char.fields:
+            getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
+            lines.append(f"        updateOrAdd(characteristics, {char.tp_character}, obj.{getter_name}(), \"{f.column_type}\");")
+
+    lines.append("    }")
+    lines.append("")
+
+    # Helper: findByTpCharacter
+    lines.append("    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {")
+    lines.append("        for (PCharacteristicVAO pch : list) {")
+    lines.append("            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {")
+    lines.append("                return pch;")
+    lines.append("            }")
+    lines.append("        }")
+    lines.append("        return null;")
+    lines.append("    }")
+    lines.append("")
+
+    # Helper: updateOrAdd
+    lines.append("    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {")
+    lines.append("        if (value == null) return;")
+    lines.append("        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);")
+    lines.append("        if (existing != null) {")
+    lines.append("            setValue(existing, value, type);")
+    lines.append("        } else {")
+    lines.append("            PCharacteristicVAO pch = new PCharacteristicVAO();")
+    lines.append("            pch.setTp_character(tpChar);")
+    lines.append("            setValue(pch, value, type);")
+    lines.append("            list.add(pch);")
+    lines.append("        }")
+    lines.append("    }")
+    lines.append("")
+
+    # Helper: setValue
+    lines.append("    private void setValue(PCharacteristicVAO pch, Object value, String type) {")
+    lines.append("        switch (type) {")
+    lines.append("            case \"desc\": pch.setPch_desc((String) value); break;")
+    lines.append("            case \"number\": pch.setPch_number((Integer) value); break;")
+    lines.append("            case \"date\": pch.setPch_date((SimpleDate) value); break;")
+    lines.append("            case \"value\": pch.setPch_value((BigDecimal) value); break;")
+    lines.append("        }")
+    lines.append("    }")
+    lines.append("")
+
     # getPropertyClass method
     lines.append("    @Override")
     lines.append(f"    public Class<{leaf_class_name}> getPropertyClass() {{")
@@ -389,6 +438,7 @@ import si.triglav.common.vao.bp.PCharacteristicVAO;
 public interface PropertyMapper<T> {
     T fromList(List<PCharacteristicVAO> characteristics);
     List<PCharacteristicVAO> toList(T typedObject, Integer idPersProperty);
+    void updateList(T typedObject, List<PCharacteristicVAO> characteristics);
     Class<T> getPropertyClass();
 }
 '''
@@ -454,6 +504,17 @@ def generate_factory(properties: Dict[int, Property]) -> str:
     lines.append("            throw new IllegalArgumentException(\"No mapper for class: \" + obj.getClass().getName());")
     lines.append("        }")
     lines.append("        return mapper.toList(obj, idPersProperty);")
+    lines.append("    }")
+    lines.append("")
+
+    # Generic updateList by class
+    lines.append("    @SuppressWarnings(\"unchecked\")")
+    lines.append("    public static <T> void updateList(T obj, List<PCharacteristicVAO> characteristics) {")
+    lines.append("        PropertyMapper<T> mapper = (PropertyMapper<T>) registryByClass.get(obj.getClass());")
+    lines.append("        if (mapper == null) {")
+    lines.append("            throw new IllegalArgumentException(\"No mapper for class: \" + obj.getClass().getName());")
+    lines.append("        }")
+    lines.append("        mapper.updateList(obj, characteristics);")
     lines.append("    }")
     lines.append("")
 

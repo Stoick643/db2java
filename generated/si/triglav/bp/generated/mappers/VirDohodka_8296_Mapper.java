@@ -115,6 +115,49 @@ public class VirDohodka_8296_Mapper implements PropertyMapper<VirDohodka> {
     }
 
     @Override
+    public void updateList(VirDohodka obj, List<PCharacteristicVAO> characteristics) {
+        updateOrAdd(characteristics, 8057, obj.getPoslanoSStraniInkaso(), "number");
+        updateOrAdd(characteristics, 8058, obj.getPoslanoSStraniTarifacija(), "number");
+        updateOrAdd(characteristics, 8284, obj.getDrugo(), "desc");
+        updateOrAdd(characteristics, 8297, obj.getTipViraDohodka(), "number");
+        updateOrAdd(characteristics, 8298, obj.getDodatniOpisViraDohodka(), "desc");
+        updateOrAdd(characteristics, 8605, obj.getCashoriginyesno(), "number");
+        updateOrAdd(characteristics, 9196, obj.getTpcharcashoriginpioyes(), "number");
+        updateOrAdd(characteristics, 9197, obj.getTpcharcashoriginpaymentover15k(), "number");
+    }
+
+    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {
+        for (PCharacteristicVAO pch : list) {
+            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {
+                return pch;
+            }
+        }
+        return null;
+    }
+
+    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {
+        if (value == null) return;
+        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);
+        if (existing != null) {
+            setValue(existing, value, type);
+        } else {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setTp_character(tpChar);
+            setValue(pch, value, type);
+            list.add(pch);
+        }
+    }
+
+    private void setValue(PCharacteristicVAO pch, Object value, String type) {
+        switch (type) {
+            case "desc": pch.setPch_desc((String) value); break;
+            case "number": pch.setPch_number((Integer) value); break;
+            case "date": pch.setPch_date((SimpleDate) value); break;
+            case "value": pch.setPch_value((BigDecimal) value); break;
+        }
+    }
+
+    @Override
     public Class<VirDohodka> getPropertyClass() {
         return VirDohodka.class;
     }

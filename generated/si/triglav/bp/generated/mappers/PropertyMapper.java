@@ -10,5 +10,6 @@ import si.triglav.common.vao.bp.PCharacteristicVAO;
 public interface PropertyMapper<T> {
     T fromList(List<PCharacteristicVAO> characteristics);
     List<PCharacteristicVAO> toList(T typedObject, Integer idPersProperty);
+    void updateList(T typedObject, List<PCharacteristicVAO> characteristics);
     Class<T> getPropertyClass();
 }

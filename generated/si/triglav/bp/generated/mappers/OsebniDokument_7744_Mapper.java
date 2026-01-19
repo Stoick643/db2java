@@ -123,6 +123,50 @@ public class OsebniDokument_7744_Mapper implements PropertyMapper<OsebniDokument
     }
 
     @Override
+    public void updateList(OsebniDokument obj, List<PCharacteristicVAO> characteristics) {
+        updateOrAdd(characteristics, 7805, obj.getStevilkaDokumenta(), "desc");
+        updateOrAdd(characteristics, 7806, obj.getVrstaDokumenta(), "number");
+        updateOrAdd(characteristics, 7807, obj.getDatumIzdaje(), "date");
+        updateOrAdd(characteristics, 7808, obj.getKonecVeljavnosti(), "date");
+        updateOrAdd(characteristics, 8018, obj.getOrganIzdaje(), "desc");
+        updateOrAdd(characteristics, 8355, obj.getVzrokNeizvedeneOsebneIdentifikacije_number(), "number");
+        updateOrAdd(characteristics, 8355, obj.getVzrokNeizvedeneOsebneIdentifikacije_desc(), "desc");
+        updateOrAdd(characteristics, 8963, obj.getDrzavaIzdajeOsebnegaDokumenta(), "number");
+        updateOrAdd(characteristics, 9111, obj.getKonecVeljavnostiPermanentno(), "number");
+    }
+
+    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {
+        for (PCharacteristicVAO pch : list) {
+            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {
+                return pch;
+            }
+        }
+        return null;
+    }
+
+    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {
+        if (value == null) return;
+        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);
+        if (existing != null) {
+            setValue(existing, value, type);
+        } else {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setTp_character(tpChar);
+            setValue(pch, value, type);
+            list.add(pch);
+        }
+    }
+
+    private void setValue(PCharacteristicVAO pch, Object value, String type) {
+        switch (type) {
+            case "desc": pch.setPch_desc((String) value); break;
+            case "number": pch.setPch_number((Integer) value); break;
+            case "date": pch.setPch_date((SimpleDate) value); break;
+            case "value": pch.setPch_value((BigDecimal) value); break;
+        }
+    }
+
+    @Override
     public Class<OsebniDokument> getPropertyClass() {
         return OsebniDokument.class;
     }

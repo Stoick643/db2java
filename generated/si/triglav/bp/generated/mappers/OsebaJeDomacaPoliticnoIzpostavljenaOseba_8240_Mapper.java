@@ -185,6 +185,56 @@ public class OsebaJeDomacaPoliticnoIzpostavljenaOseba_8240_Mapper implements Pro
     }
 
     @Override
+    public void updateList(OsebaJeDomacaPoliticnoIzpostavljenaOseba obj, List<PCharacteristicVAO> characteristics) {
+        updateOrAdd(characteristics, 8047, obj.getIzpolnjenVprasalnikZaTujePoliticnoIzpostavljeneOsebe(), "number");
+        updateOrAdd(characteristics, 8241, obj.getOsebaJeDomacaPoliticnoIzpostavljenaOseba(), "number");
+        updateOrAdd(characteristics, 8363, obj.getVzrokZaIzpolnitevVprasalnika(), "desc");
+        updateOrAdd(characteristics, 8364, obj.getPodrocjeOzIzpolnitveVprasalnika(), "number");
+        updateOrAdd(characteristics, 8593, obj.getFinishdatepoliticperson(), "date");
+        updateOrAdd(characteristics, 8630, obj.getTpnonresponeyesno(), "number");
+        updateOrAdd(characteristics, 8631, obj.getTpnonresfammemyesno(), "number");
+        updateOrAdd(characteristics, 8632, obj.getTpnonrescoworkyesno(), "number");
+        updateOrAdd(characteristics, 9112, obj.getTppiocommentfunc(), "desc");
+        updateOrAdd(characteristics, 9113, obj.getTppiocommentproperty(), "desc");
+        updateOrAdd(characteristics, 9190, obj.getFinishdatepoliticpersonfunction(), "date");
+        updateOrAdd(characteristics, 9191, obj.getTpcharnonresponecomment(), "desc");
+        updateOrAdd(characteristics, 9192, obj.getTpcharnonresfammemcomment(), "desc");
+        updateOrAdd(characteristics, 9193, obj.getTpcharnonrescoworkcomment(), "desc");
+        updateOrAdd(characteristics, 9194, obj.getTpcharpioevent(), "number");
+    }
+
+    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {
+        for (PCharacteristicVAO pch : list) {
+            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {
+                return pch;
+            }
+        }
+        return null;
+    }
+
+    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {
+        if (value == null) return;
+        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);
+        if (existing != null) {
+            setValue(existing, value, type);
+        } else {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setTp_character(tpChar);
+            setValue(pch, value, type);
+            list.add(pch);
+        }
+    }
+
+    private void setValue(PCharacteristicVAO pch, Object value, String type) {
+        switch (type) {
+            case "desc": pch.setPch_desc((String) value); break;
+            case "number": pch.setPch_number((Integer) value); break;
+            case "date": pch.setPch_date((SimpleDate) value); break;
+            case "value": pch.setPch_value((BigDecimal) value); break;
+        }
+    }
+
+    @Override
     public Class<OsebaJeDomacaPoliticnoIzpostavljenaOseba> getPropertyClass() {
         return OsebaJeDomacaPoliticnoIzpostavljenaOseba.class;
     }

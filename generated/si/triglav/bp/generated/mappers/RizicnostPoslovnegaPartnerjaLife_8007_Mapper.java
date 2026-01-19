@@ -175,6 +175,55 @@ public class RizicnostPoslovnegaPartnerjaLife_8007_Mapper implements PropertyMap
     }
 
     @Override
+    public void updateList(RizicnostPoslovnegaPartnerjaLife obj, List<PCharacteristicVAO> characteristics) {
+        updateOrAdd(characteristics, 8008, obj.getRizicnostPoslovnegaPartnerjaLife(), "number");
+        updateOrAdd(characteristics, 12841, obj.getStrankaJePio(), "number");
+        updateOrAdd(characteristics, 12842, obj.getStrankaImaPovezaneOsebe(), "number");
+        updateOrAdd(characteristics, 12843, obj.getDrzavljanstvo(), "number");
+        updateOrAdd(characteristics, 12844, obj.getDrzavaStalnegaPrebivanja(), "number");
+        updateOrAdd(characteristics, 12845, obj.getDrzavaZacasnegaPrebivanja(), "number");
+        updateOrAdd(characteristics, 12846, obj.getRezidentstvoRs(), "number");
+        updateOrAdd(characteristics, 12847, obj.getSklenjeniProdukti(), "number");
+        updateOrAdd(characteristics, 12848, obj.getTransakcijeInStanjaNaNalozbenemRacunu(), "number");
+        updateOrAdd(characteristics, 12849, obj.getNaciniIzvedbeTransakcije(), "number");
+        updateOrAdd(characteristics, 12854, obj.getDrzavaSedeza(), "number");
+        updateOrAdd(characteristics, 12855, obj.getJavnaUpravaInJavnaPodjetja(), "number");
+        updateOrAdd(characteristics, 12856, obj.getDrzavaIzvoraVplacila(), "number");
+        updateOrAdd(characteristics, 12857, obj.getDrzavaIzplacila(), "number");
+    }
+
+    private PCharacteristicVAO findByTpCharacter(List<PCharacteristicVAO> list, int tpChar) {
+        for (PCharacteristicVAO pch : list) {
+            if (pch.getTp_character() != null && pch.getTp_character() == tpChar) {
+                return pch;
+            }
+        }
+        return null;
+    }
+
+    private void updateOrAdd(List<PCharacteristicVAO> list, int tpChar, Object value, String type) {
+        if (value == null) return;
+        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);
+        if (existing != null) {
+            setValue(existing, value, type);
+        } else {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setTp_character(tpChar);
+            setValue(pch, value, type);
+            list.add(pch);
+        }
+    }
+
+    private void setValue(PCharacteristicVAO pch, Object value, String type) {
+        switch (type) {
+            case "desc": pch.setPch_desc((String) value); break;
+            case "number": pch.setPch_number((Integer) value); break;
+            case "date": pch.setPch_date((SimpleDate) value); break;
+            case "value": pch.setPch_value((BigDecimal) value); break;
+        }
+    }
+
+    @Override
     public Class<RizicnostPoslovnegaPartnerjaLife> getPropertyClass() {
         return RizicnostPoslovnegaPartnerjaLife.class;
     }

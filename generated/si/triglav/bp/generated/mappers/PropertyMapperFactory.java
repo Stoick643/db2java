@@ -196,6 +196,15 @@ public class PropertyMapperFactory {
         return mapper.toList(obj, idPersProperty);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> void updateList(T obj, List<PCharacteristicVAO> characteristics) {
+        PropertyMapper<T> mapper = (PropertyMapper<T>) registryByClass.get(obj.getClass());
+        if (mapper == null) {
+            throw new IllegalArgumentException("No mapper for class: " + obj.getClass().getName());
+        }
+        mapper.updateList(obj, characteristics);
+    }
+
     public static boolean hasMapper(Class<?> clazz) {
         return registryByClass.containsKey(clazz);
     }
