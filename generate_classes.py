@@ -5,6 +5,7 @@ Parses prochar.csv and generates property classes, mappers, and factory.
 Supports multi-column characteristics and 3-level architecture.
 """
 
+import argparse
 import csv
 import os
 import re
@@ -544,18 +545,23 @@ def write_file(filepath: str, content: str, overwrite: bool = True):
 
 
 def main():
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Generate typed Java classes from prochar.csv')
+    parser.add_argument('--tp', type=int, help='Generate only this tp_property (e.g., --tp 7744)')
+    args = parser.parse_args()
+
     script_dir = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(script_dir, 'docs', 'prochar.csv')
     base_output_dir = os.path.join(script_dir, 'generated')
 
     print(f"Parsing {csv_path}...")
-    properties = parse_prochar_csv(csv_path)
+    all_properties = parse_prochar_csv(csv_path)
 
-    print(f"\nFound {len(properties)} properties")
+    print(f"\nFound {len(all_properties)} properties")
 
     # Count multi-column characteristics
     multi_col_count = 0
-    for prop in properties.values():
+    for prop in all_properties.values():
         for char in prop.characteristics:
             if len(char.fields) > 1:
                 multi_col_count += 1
@@ -563,10 +569,18 @@ def main():
 
     print(f"\nMulti-column characteristics: {multi_col_count}")
 
-    # Filter for POC if enabled
-    if POC_FILTER:
-        properties = {k: v for k, v in properties.items() if k in POC_FILTER}
+    # Filter for single tp_property if specified
+    if args.tp:
+        if args.tp not in all_properties:
+            print(f"\nError: tp_property {args.tp} not found in CSV")
+            return
+        properties = {args.tp: all_properties[args.tp]}
+        print(f"\nSingle property mode: generating only tp_property={args.tp}")
+    elif POC_FILTER:
+        properties = {k: v for k, v in all_properties.items() if k in POC_FILTER}
         print(f"\nPOC mode: generating only {len(properties)} properties")
+    else:
+        properties = all_properties
 
     print("\nGenerating Java files...")
 
@@ -594,9 +608,9 @@ def main():
     filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'mappers', 'PropertyMapper.java')
     write_file(filepath, generate_interface())
 
-    # Factory
+    # Factory (always includes ALL properties for complete registry)
     filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'mappers', 'PropertyMapperFactory.java')
-    write_file(filepath, generate_factory(properties))
+    write_file(filepath, generate_factory(all_properties))
 
     total_files = 1 + len(properties) * 3 + 2  # BaseProperties + (prop + leaf + mapper) * N + interface + factory
     print(f"\nDone! Generated {total_files} files.")
