@@ -1,0 +1,61 @@
+package si.triglav.bp.generated.mappers;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import si.triglav.bp.properties.Irska;
+import si.triglav.common.SimpleDate;
+import si.triglav.common.vao.bp.PCharacteristicVAO;
+
+/**
+ * Mapper for TP_PROPERTY=940 (IRSKA)
+ * Generated - do not edit manually.
+ */
+public class Irska_940_Mapper implements PropertyMapper<Irska> {
+
+    @Override
+    public Irska fromList(List<PCharacteristicVAO> characteristics) {
+        Irska result = new Irska();
+
+        for (PCharacteristicVAO pch : characteristics) {
+            switch (pch.getTp_character()) {
+                case 9013:
+                    result.setSigningIdentifier(pch.getPch_desc());
+                    break;
+                case 9017:
+                    result.setPhone(pch.getPch_desc());
+                    break;
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<PCharacteristicVAO> toList(Irska obj, Integer idPersProperty) {
+        List<PCharacteristicVAO> result = new ArrayList<>();
+
+        if (obj.getSigningIdentifier() != null) {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setId_pers_property(idPersProperty);
+            pch.setTp_character(9013);
+            pch.setPch_desc(obj.getSigningIdentifier());
+            result.add(pch);
+        }
+        if (obj.getPhone() != null) {
+            PCharacteristicVAO pch = new PCharacteristicVAO();
+            pch.setId_pers_property(idPersProperty);
+            pch.setTp_character(9017);
+            pch.setPch_desc(obj.getPhone());
+            result.add(pch);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Class<Irska> getPropertyClass() {
+        return Irska.class;
+    }
+}

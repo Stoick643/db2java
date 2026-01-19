@@ -1,0 +1,17 @@
+# Archives
+*.7z
+*.zip
+*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

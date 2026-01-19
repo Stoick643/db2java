@@ -1,0 +1,279 @@
+TP_PROPERTY;SIF_OPIS;TP_CHARACTER;SIF_OPIS;CNT_NUMBER;CNT_VALUE;CNT_DATE;CNT_DESC
+490;"VALORIZACIJA PO TEMELJNI OBRESTNI MERI";8630;"TP_NONRES_PONE_YES_NO";5;0;0;0
+491;"NOMINALNA VALORIZACIJA";8631;"TP_NONRES_FAMMEM_YES_NO";5;0;0;0
+492;"Special Drawing Rights";8632;"TP_NONRES_COWORK_YES_NO";5;0;0;0
+940;"IRSKA";9013;"Signing identifier";0;0;0;323398
+940;"IRSKA";9017;"Phone";0;0;0;355965
+7741;"Telefon";7741;"Telefon";0;0;0;15
+7741;"Telefon";7800;"Telefonska številka";0;0;0;1988408
+7741;"Telefon";7801;"Omrežna skupina";0;0;0;1857162
+7741;"Telefon";7802;"Vrsta telefona";1988383;0;0;169298
+7741;"Telefon";7840;"Zaporedna številka lastnosti";1988407;0;0;1
+7742;"Kontakt - email naslov";7803;"Email naslov";0;0;0;899421
+7742;"Kontakt - email naslov";7840;"Zaporedna številka lastnosti";3930;0;0;0
+7743;"Kontakt - spletni naslov";7804;"Spletni naslov";0;0;0;12257
+7744;"Osebni dokument";7805;"Številka dokumenta";0;0;1;1404501
+7744;"Osebni dokument";7806;"Vrsta dokumenta";1406089;0;1;0
+7744;"Osebni dokument";7807;"Datum izdaje";0;0;676826;0
+7744;"Osebni dokument";7808;"Konec veljavnosti";0;0;826667;0
+7744;"Osebni dokument";8018;"Organ izdaje";0;0;1;1131342
+7744;"Osebni dokument";8355;"Vzrok neizvedene osebne identifikacije";613671;0;0;242922
+7744;"Osebni dokument";8963;"Država izdaje osebnega dokumenta";113955;0;0;0
+7744;"Osebni dokument";9111;"Konec veljavnosti - Permanentno";1007291;0;0;0
+7744;"Osebni dokument";9117;"Mesto izdaje";0;0;0;0
+7745;"Zaposlitev - status";7809;"Status zaposlitve";3924;0;0;0
+7746;"Zaposlitev - delovno mesto";7810;"Delovno mesto";0;0;0;1709
+7747;"Zaposlitev - izobrazba";7811;"Stopnja izobrazbe";2862;0;0;0
+7747;"Zaposlitev - izobrazba";7812;"Smer";0;0;0;5
+7748;"Bonitetna kategorija";7813;"Bonitetna kategorija";1;0;0;0
+7749;"Ocenjena kategorija";7814;"Ocenjena kategorija";1;0;0;0
+7749;"Ocenjena kategorija";7815;"Razlaga oc. Kategorije";0;0;0;1
+7767;"lastnost vracilo fakture";7768;"vrednost lastnosti vracila fakture";2299;0;0;1912
+7773;"Hobi";7822;"Tip hobija";3209;0;0;0
+7773;"Hobi";7823;"Opis hobija";0;0;0;0
+7774;"Kontakt - kontaktna oseba";7824;"Kontaktna oseba";0;0;0;4840
+7782;"Sifra kmetijskega gospodarstva (KMG_MID)";7825;"Šifra kmetijskega gospodarstva (KMG_MID)";0;0;0;33826
+7785;"Opomba";7832;"Opis opombe";0;0;0;1105086
+7786;"Dejavnost po SKIS";7846;"Dejavnost po SKIS - karakteristika";0;0;0;158822
+7787;"Financni podatki";7834;"Leto financnih podatkov";0;0;0;0
+7787;"Financni podatki";7835;"Prihodek";0;0;0;0
+7787;"Financni podatki";7836;"Kapital";0;0;0;0
+7787;"Financni podatki";7837;"Dobicek/Izguba";0;0;0;0
+7787;"Financni podatki";7838;"Stevilo zaposlenih";0;0;0;0
+7788;"Vrsta lastnine (PRS) - Lastnost";7839;"Vrsta lastnine (PRS) - Karakteristika";201185;0;0;0
+7789;"Datum ustanovitve podjetja - lastnost";7841;"Datum ustanovitve podjetja - karakteristika";0;0;4;0
+7790;"Ustanovitelj podjetja";7842;"Ime osebe";0;0;0;294813
+7790;"Ustanovitelj podjetja";7843;"Priimek osebe";0;0;0;301254
+7792;"Zelena karta";7845;"Koda zelene karte";0;0;0;1150
+7793;"TIP VLOGE";7794;"TIP VLOGE";33951;0;0;0
+7793;"TIP VLOGE";7797;"TIP VLOGE - OPIS";0;0;0;7793
+7793;"TIP VLOGE";13668;"TIP VLOGE DODATEK";0;0;0;684
+7798;"Swift";7799;"Swift koda";0;0;0;2286
+7867;"Identifikacijska številka za DDV";7868;"Identifikacijska številka za DDV";0;0;0;2135463
+7869;"Veterinarska licenca";7870;"Veterinarska licenca";0;0;0;986
+7871;"Privatna šifra zavarovanca";7872;"Privatna šifra zavarovanca";0;0;0;15498
+7874;"Pin - e-življenje";7873;"Pin - e-življenje";0;0;0;111617
+7875;"Maticna številka - LN";7876;"Maticna številka - LN";0;0;0;6547
+7877;"Stranka je cedent";7878;"Stranka je cedent";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";8008;"Rizicnost poslovnega partnerja - LIFE";362069;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";8368;"Dodatni opis stopnje tveganja";0;0;0;1
+8007;"Rizicnost poslovnega partnerja - LIFE";9240;"TP_CHAR_RISK_LIFE_CUSTOMER";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12840;"Stranka je na ZPPFT listi";4;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12841;"Stranka je PIO";282278;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12842;"Stranka ima povezane osebe";5095;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12843;"Državljanstvo";350406;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12844;"Država stalnega prebivanja";357768;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12845;"Država zacasnega prebivanja";6972;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12846;"Rezidentstvo RS";357768;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12847;"Sklenjeni produkti";298961;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12848;"Transakcije in stanja na naložbenem racunu";278773;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12849;"Nacini izvedbe transakcije";231480;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12854;"Država sedeža";2850;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12855;"Javna uprava in javna podjetja";15;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12856;"Država izvora vplacila";1654;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12857;"Država izplacila";316;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12858;"Rocni indikatorji";1;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12909;"Stranka je FO s stal. ali zac. prebival. v nizko tvegani državi";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12929;"Ce ni prisoten nob. od zg. dej. tveganja, je podano obicajno tveganje";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12940;"Države clanice EU";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12945;"Vse ostale države, ki niso na seznamih iz 1-5";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12953;"Produkt, ki se izplaca samo na podlagi vnaprej opredeljenega dogodka";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12955;"Produkt nima nobenega naložbenega elementa";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12956;"ŽZ z nizko premijo na letni ravni";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12958;"Kolektivna ŽZ iz zavarovalne skupine življ. zavarovanj po ZZavar-1";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12961;"Produkt doloca pogoje, ki omejujejo razpoložljivost sredstev";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12965;"Produkt, ki ni uvršcen v katero od tock 1-15";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12990;"Prodajniki ZT, face-to-face identifikacija stranke";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12991;"Agencije  (PPP) in  banke, face-to-face identifikacija stranke";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12992;"Spletna poslovalnica i.triglav, najvišji nivo zaupanja: visoko";0;0;0;0
+8007;"Rizicnost poslovnega partnerja - LIFE";12993;"Prodajne poti iz tc.1 in 2: posl. na oddal. nacin za obst. str. ZT";0;0;0;0
+8009;"Omogoceno spreminjanje osebe samo za uporabnika v vlogi Skrbnik";8012;"Omogoceno spreminjanje osebe samo za uporabnika v vlogi Skrbnik";0;0;0;0
+8019;"Datum zdravstvenega pregleda";8029;"Datum predvidenega pregleda";0;0;142765;0
+8019;"Datum zdravstvenega pregleda";8030;"Datum opravljenega pregleda";0;0;142955;0
+8019;"Datum zdravstvenega pregleda";8038;"Perioda pregleda";294367;0;0;0
+8019;"Datum zdravstvenega pregleda";8044;"Datum vabila na pregled";0;0;599;0
+8019;"Datum zdravstvenega pregleda";8045;"Datum opomina";0;0;179;0
+8033;"Oseba je rezident RS";8034;"Oseba je rezident RS";2016392;0;0;0
+8033;"Oseba je rezident RS";8046;"Država rezidenstva";1516202;0;0;0
+8033;"Oseba je rezident RS";8047;"Izpolnjen vprašalnik za tuje politicno izpostavljene osebe";7;0;0;0
+8033;"Oseba je rezident RS";8363;"Vzrok za izpolnitev vprašalnika";0;0;0;0
+8033;"Oseba je rezident RS";8364;"Podrocje OZ izpolnitve vprašalnika";0;0;0;0
+8035;"Oseba je tuja politicno izpostavljena oseba";8036;"Oseba je tuja politicno izpostavljena oseba";1620;0;0;0
+8071;"Privatna šifra zavarovanca - transportna zavarovanja";8072;"Privatna šifra zavarovanca - transportna zavarovanja";0;0;0;623
+8154;"Zablokirana davcna številka";8155;"Zablokirana davcna številka";0;0;0;0
+8158;"Financna inštitucija";8159;"Financna inštitucija";7142;0;0;0
+8195;"Podatki o bonitetnih ocenah";8193;"Bonitetna ocena(nešifrirana)";0;0;0;116
+8195;"Podatki o bonitetnih ocenah";8194;"Datum bonitetne ocene";0;0;116;0
+8195;"Podatki o bonitetnih ocenah";8196;"Bonitetna agencija";116;0;0;0
+8195;"Podatki o bonitetnih ocenah";8560;"LEI koda";0;0;0;2
+8195;"Podatki o bonitetnih ocenah";8561;"Bloomberg ticker";0;0;0;2
+8195;"Podatki o bonitetnih ocenah";8562;"Kreditna kvaliteta";0;0;0;2
+8198;"Omogocena uporaba Triglav Kompleta";8128;"Omogocena uporaba Triglav Kompleta";0;0;0;0
+8199;"Partner je rentni upravicenec";8349;"Partner je rentni upravicenec";0;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8047;"Izpolnjen vprašalnik za tuje politicno izpostavljene osebe";32027;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8241;"Oseba je domaca politicno izpostavljena oseba";775460;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8363;"Vzrok za izpolnitev vprašalnika";0;0;0;101
+8240;"Oseba je domaca politicno izpostavljena oseba";8364;"Podrocje OZ izpolnitve vprašalnika";151;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8593;"FINISH_DATE_POLITIC_PERSON";0;0;124;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8630;"TP_NONRES_PONE_YES_NO";729791;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8631;"TP_NONRES_FAMMEM_YES_NO";729787;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";8632;"TP_NONRES_COWORK_YES_NO";729791;0;0;0
+8240;"Oseba je domaca politicno izpostavljena oseba";9112;"TP_PIO_COMMENT_FUNC";0;0;0;17618
+8240;"Oseba je domaca politicno izpostavljena oseba";9113;"TP_PIO_COMMENT_PROPERTY";0;0;0;61
+8240;"Oseba je domaca politicno izpostavljena oseba";9190;"FINISH_DATE_POLITIC_PERSON_FUNCTION";0;0;23;0
+8240;"Oseba je domaca politicno izpostavljena oseba";9191;"TP_CHAR_NONRES_PONE_COMMENT";0;0;0;51
+8240;"Oseba je domaca politicno izpostavljena oseba";9192;"TP_CHAR_NONRES_FAMMEM_COMMENT";0;0;0;42
+8240;"Oseba je domaca politicno izpostavljena oseba";9193;"TP_CHAR_NONRES_COWORK_COMMENT";0;0;0;12
+8240;"Oseba je domaca politicno izpostavljena oseba";9194;"TP_CHAR_PIO_EVENT";209193;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8268;"Država";1266;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8269;"Rezident ZDA za davcne namene";288572;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8270;"Šifra TIN/SSN";0;0;0;7973
+8266;"Podatki za potrebe FATCA dolocb";8271;"Šifra GIIN";0;0;0;3
+8266;"Podatki za potrebe FATCA dolocb";8272;"Izpolnjen vprašalnik W-8 BEN/BEN-E";1207;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8273;"Izpolnjen vprašalnik W-9";1219;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8274;"FATCA status";1361;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8313;"Oseba ima pozitiven FATCA status";1134;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";8574;"FATCA_YES_NO";669086;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";9195;"TP_CHAR_FATCA_SSN";0;0;0;11
+8266;"Podatki za potrebe FATCA dolocb";12669;"TP_CHAR_FATCA_W8E";2;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";12670;"TP_CHAR_FATCA_NOTE_SENT_DATE";0;0;6;0
+8266;"Podatki za potrebe FATCA dolocb";12671;"TP_CHAR_FATCA_NOTE_RECEIVED_DATE";0;0;7;0
+8266;"Podatki za potrebe FATCA dolocb";12672;"TP_CHAR_FATCA_VALID_BEGIN_DATE";0;0;0;0
+8266;"Podatki za potrebe FATCA dolocb";12673;"TP_CHAR_FATCA_VALID_END_DATE";0;0;0;0
+8275;"eRacun";8276;"Stranka želi prejemati eRacun";3858;0;0;0
+8275;"eRacun";8277;"Vrsta kanala za prejemanje eRacuna";3811;0;0;0
+8275;"eRacun";8278;"Elektronski naslov za eRacun";0;0;0;925
+8275;"eRacun";8286;"Bancni racun za eRacun";0;0;0;1118
+8296;"Vir dohodka";8057;"Poslano s strani Inkaso";1530;0;0;0
+8296;"Vir dohodka";8058;"Poslano s strani Tarifacija";1530;0;0;0
+8296;"Vir dohodka";8284;"Drugo";0;0;0;296
+8296;"Vir dohodka";8290;"Dohodek iz dela";0;0;0;0
+8296;"Vir dohodka";8291;"Dohodek iz dejavnosti";0;0;0;0
+8296;"Vir dohodka";8292;"Dohodek iz premoženja in premoženjskih pravic";0;0;0;0
+8296;"Vir dohodka";8293;"Darila družinskega clana";0;0;0;0
+8296;"Vir dohodka";8294;"Darila druge osebe";0;0;0;3
+8296;"Vir dohodka";8295;"Dohodek iz dobitka na sreco";0;0;0;0
+8296;"Vir dohodka";8297;"Tip vira dohodka";2272;0;0;0
+8296;"Vir dohodka";8298;"Dodatni opis vira dohodka";0;0;0;2307
+8296;"Vir dohodka";8564;"Pokojnina";0;0;0;0
+8296;"Vir dohodka";8605;"CASH_ORIGIN_YES_NO";1685;0;0;0
+8296;"Vir dohodka";9196;"TP_CHAR_CASH_ORIGIN_PIO_YES";3462;0;0;0
+8296;"Vir dohodka";9197;"TP_CHAR_CASH_ORIGIN_PAYMENT_OVER_15K";3464;0;0;0
+8296;"Vir dohodka";10830;"Dohodek iz kapitala";0;0;0;0
+8299;"Podatki o rojstvu";8267;"Kraj rojstva";0;0;0;862892
+8299;"Podatki o rojstvu";8269;"Rezident ZDA za davcne namene";0;0;0;0
+8299;"Podatki o rojstvu";8270;"Šifra TIN/SSN";0;0;0;0
+8299;"Podatki o rojstvu";8271;"Šifra GIIN";0;0;0;0
+8299;"Podatki o rojstvu";8272;"Izpolnjen vprašalnik W-8 BEN/BEN-E";0;0;0;0
+8299;"Podatki o rojstvu";8273;"Izpolnjen vprašalnik W-9";0;0;0;0
+8299;"Podatki o rojstvu";8274;"FATCA status";0;0;0;0
+8299;"Podatki o rojstvu";8309;"Država rojstva";874837;0;0;0
+8316;"Posebni email naslov";7840;"Zaporedna številka lastnosti";94139;0;0;0
+8316;"Posebni email naslov";8317;"Tip posebnega email naslova";231845;0;0;0
+8316;"Posebni email naslov";8318;"Email naslov";0;0;0;234523
+8316;"Posebni email naslov";8575;"TP_CHAR_SPECIAL_EMAIL_VERIFIED";224690;0;0;0
+8328;"Škode - email naslov";7803;"Email naslov";0;0;0;1
+8328;"Škode - email naslov";8329;"Škode Email naslov";0;0;0;373
+8371;"Opravljen poglobljen pregled";8372;"Opravljen poglobljen pregled";2225;0;0;0
+8374;"Partner je placnik na zbirnem racunu";8375;"Partner je placnik na zbirnem racunu";213;0;0;0
+8374;"Partner je placnik na zbirnem racunu";8376;"Elektronski naslov za prejem zbirnega racuna";0;0;0;213
+8374;"Partner je placnik na zbirnem racunu";8394;"Valuta zbirnega racuna";212;0;0;0
+8374;"Partner je placnik na zbirnem racunu";8648;"Odrski vodja";2;0;0;0
+8382;"Podatki o partnerju na LIFE";8383;"Partner ima sklenjeno veljavno osebno zavarovanje";363111;0;0;0
+8520;"Velikost podjetja";8521;"Velikost podjetja";134154;0;0;0
+8531;"Serijska številka certifikata";8532;"Serijska številka certifikata";0;0;0;13
+8533;"Partner ima poseben status za namen trženja";8532;"Serijska številka certifikata";0;0;0;0
+8535;"Šifra partnerja v Navision";8536;"Šifra partnerja v Navision";0;0;0;24176
+8538;"Dovoljenje za obdelavo in uporabo os. podatkov - zavar. storitve";8539;"Dovoljenje za obdelavo in uporabo os. podatkov - zavar. storitve";4315;0;0;0
+8540;"Dovoljenje za obdelavo in uporabo os. podatkov - trženje";8541;"Dovoljenje za obdelavo in uporabo os. podatkov - trženje";6220;0;0;0
+8542;"Dovoljenje za obdelavo in uporabo os. podatkov - poslovanje ZT";8543;"Dovoljenje za obdelavo in uporabo os. podatkov - poslovanje ZT";4315;0;0;0
+8550;"Tip naknadnega zbiranja DŠ";8551;"Tip naknadnega zbiranja DŠ";134;0;1;14
+8550;"Tip naknadnega zbiranja DŠ";8558;"Direktor v zabavni industriji";0;0;0;2
+8637;"TP_PROPERTY_CRS";8636;"TP_CHAR_CRS_YES_NO";708360;0;0;0
+8637;"TP_PROPERTY_CRS";12665;"TP_CHAR_CRS_NOTE_SENT_DATE";0;0;564;0
+8637;"TP_PROPERTY_CRS";12666;"TP_CHAR_CRS_RECEIVED_CONFIRMATION_DATE";0;0;307;0
+8637;"TP_PROPERTY_CRS";12667;"TP_CHAR_CRS_VALID_BEGIN_DATE";0;0;31;0
+8637;"TP_PROPERTY_CRS";12668;"TP_CHAR_CRS_VALID_END_DATE";0;0;3;0
+8639;"TP_PROPERTY_NATIONALITY";8638;"TP_CHAR_NATIONALITY";794494;0;0;0
+8915;"Škode - hocem komunicirati preko email";8916;"Škode prop - hocem komunicirati preko email";0;0;0;0
+8918;"Partner je placnik na zbirnem racunu - dnevi pošiljanja";8917;"Dan za pošiljanje - zbirni racun";0;0;0;23
+8920;"Lastnost eNarocilnica";8921;"eNarocilnica";0;0;0;1
+8962;"Vzrok nastanka tveganosti - LIFE";8961;"Vzrok nastanka tveganosti - LIFE";85131;0;0;0
+8966;"Video identifikacija";8967;"Video id ref";0;0;0;3032
+9015;"Podatki o partnerju na NON LIFE";9016;"Partner ima sklenjeno veljavno premoženjsko zavarovanje";1;0;0;0
+9020;"iTriglav in E-komuniciranje";9021;"Stranka je uporabnik iTriglav";233502;0;0;0
+9020;"iTriglav in E-komuniciranje";9022;"E-komuniciranje";233502;0;0;0
+9020;"iTriglav in E-komuniciranje";9023;"E-naslov za iTriglav in e-komuniciranje";0;0;0;232200
+9020;"iTriglav in E-komuniciranje";9026;"Telefonska številka za iTriglav";0;0;0;39701
+9050;"Zablokiran datum rojstva";9051;"Zablokiran datum rojstva";0;0;0;0
+9052;"Zablokiran EMŠO";9053;"Zablokiran EMŠO";0;0;0;0
+9054;"Zablokiran datum smrti";9055;"Zablokiran datum smrti";0;0;0;0
+9056;"Zablokirana oznaka pokojni DA/NE";9057;"Zablokirana oznaka pokojni DA/NE";0;0;0;0
+9058;"Zablokiran spol";9059;"Zablokiran spol";0;0;0;0
+9060;"Neznan naslov worker";9061;"Neznan naslov worker";0;0;0;0
+9069;"Preveri objekte na racunu po atributu";9070;"Preveri objekte na racunu po atributu";0;0;0;4
+9115;"Zajem v CRP dovoljen";9114;"TP_CHAR_CRP_INSIGHT";0;0;0;0
+9180;"Kontakt - kontaktni center";9119;"Kontaktni center";45;0;0;0
+9182;"Kontakt  kontaktni center list";9181;"Kontaktni center - telefon";0;0;0;6
+9183;"E-komuniciranje - Analitika";9184;"E-komuniciranje  email";0;0;0;196
+9183;"E-komuniciranje - Analitika";9185;"E-komuniciranje  opomba";0;0;0;19
+9188;"Zaposlitev - status FATCA";9189;"Status zaposlitve FATCA";135758;0;0;0
+9198;"Podatki o premoženjskem stanju";8284;"Drugo";0;0;0;22
+9198;"Podatki o premoženjskem stanju";8290;"Dohodek iz dela";0;0;0;0
+9198;"Podatki o premoženjskem stanju";8291;"Dohodek iz dejavnosti";0;0;0;0
+9198;"Podatki o premoženjskem stanju";8292;"Dohodek iz premoženja in premoženjskih pravic";0;0;0;0
+9198;"Podatki o premoženjskem stanju";8293;"Darila družinskega clana";0;0;0;0
+9198;"Podatki o premoženjskem stanju";8295;"Dohodek iz dobitka na sreco";0;0;0;0
+9198;"Podatki o premoženjskem stanju";8564;"Pokojnina";0;0;0;0
+9198;"Podatki o premoženjskem stanju";10830;"Dohodek iz kapitala";0;0;0;0
+9198;"Podatki o premoženjskem stanju";13060;"Nerezident tretje visoko tvegane države";0;0;0;0
+9198;"Podatki o premoženjskem stanju";13061;"Državljan tretje visoko tvegane države";0;0;0;0
+9198;"Podatki o premoženjskem stanju";13066;"Imetnik bancnega racuna pri banki";0;0;0;277
+9198;"Podatki o premoženjskem stanju";13067;"Lastnik ali solastnik neprem. ali drugega premoženja v RS ali tujini";0;0;0;68
+9198;"Podatki o premoženjskem stanju";13068;"Lastnik ali solastnik pravne osebe v RS ali tujini";0;0;0;5
+9198;"Podatki o premoženjskem stanju";13069;"Vlagatelj v vzajemne sklade pri upravljalcu skladov";0;0;0;24
+9198;"Podatki o premoženjskem stanju";13070;"Drugo premoženje";0;0;0;23
+9244;"Ameriška zvezna država";9245;"Ameriška zvezna država";151;0;0;0
+10620;"Excel s podatki racuna";10621;"Excel s podatki racuna";0;0;0;0
+12649;"ZPPDFT zaupno";12650;"ZPPDFT zaupno vnos";7;0;0;0
+12649;"ZPPDFT zaupno";12651;"ZPPDFT zaupno opis";0;0;0;7
+12655;"Tveganost stranke - PRODUKT";12656;"Tveganost stranke - PRODUKT";298959;0;0;0
+12657;"Tveganost stranke - TRANSAKCIJE in STANJE";12658;"Tveganost stranke - TRANSAKCIJE in STANJE";278771;0;0;0
+12659;"Tveganost stranke - NACIN TRANSAKCIJE";12660;"Tveganost stranke - NACIN TRANSAKCIJE";231481;0;0;0
+12730;"Tveganost stranke TPD - PRODUKT";12731;"Tveganost stranke TPD - PRODUKT";60209;0;0;0
+12732;"Tveganost stranke TPD - TRANSAKCIJE in STANJE";12733;"Tveganost stranke TPD - TRANSAKCIJE in STANJE";60977;0;0;0
+12734;"Tveganost stranke TPD - NACIN TRANSAKCIJE";12735;"Tveganost stranke TPD - NACIN TRANSAKCIJE";4546;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12736;"Rizicnost poslovnega partnerja - TPD";64478;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12841;"Stranka je PIO";33517;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12842;"Stranka ima povezane osebe";18;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12843;"Državljanstvo";64422;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12844;"Država stalnega prebivanja";64478;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12845;"Država zacasnega prebivanja";1272;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12846;"Rezidentstvo RS";64062;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12847;"Sklenjeni produkti";60209;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12848;"Transakcije in stanja na naložbenem racunu";60977;0;0;0
+12737;"Rizicnost poslovnega partnerja - TPD";12849;"Nacini izvedbe transakcije";4546;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13330;"TP_CHAR_DEF_SUBJ_STAT_ORIG_COUNTRY";94;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13331;"TP_CHAR_DEF_SUBJ_STAT_FIN_INST";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13332;"TP_CHAR_DEF_SUBJ_STAT_FIN_INST_1";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13333;"TP_CHAR_DEF_SUBJ_STAT_FIN_INST_2";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13335;"TP_CHAR_DEF_SUBJ_STAT_GIIN";0;0;0;4
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13336;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13337;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST_ANFS";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13338;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST_ANFS_1";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13339;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST_ANFS_11";0;0;0;30
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13343;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST_ANFS_5";0;0;0;0
+13329;"TP_PROPERTY_DEF_SUBJECT_STATUS";13344;"TP_CHAR_DEF_SUBJ_STAT_NO_FIN_INST_PNFS";0;0;0;0
+13345;"TP_PROPERTY_TPD_PARTNER_DATA";13346;"TP_CHAR_PARTNER_VALID_TPD_INSURANCE";66306;0;0;0
+13669;"Mednarodna identifikacijska koda";13670;"Mednarodna identifikacijska koda";0;0;0;346
+13672;"Neprofitna organizacija";13673;"Neprofitna organizacija";3997;0;0;0
+13680;"Neznan naslov fizicna oseba";13681;"Neznan naslov fizicna oseba";0;0;0;0
+13682;"Identifikacijska koda EUID";13683;"Identifikacijska koda EUID";0;0;0;592
+13684;"Province";13685;"Province";1840518;0;0;0
+14246;"Sukcesivni racun";14247;"Sukcesivni racun";0;0;0;0
+14248;"Rocni indikatorji";14268;"Drugo";1;0;0;1
+14249;"Dejavnosti rizika";14270;"Gostinski lokali";0;0;0;0
+14249;"Dejavnosti rizika";14286;"Drugo";0;0;0;0
+14290;"Tveganost stranke - Država izvora vplacila";14291;"Tveganost stranke - Država izvora vplacila";1654;0;0;0
+14292;"Tveganost stranke - Država izplacila";14293;"Tveganost stranke - Država izplacila";316;0;0;0
+14295;"Podatki o soglasju za uporabo osebnih podatkov za testiranje aplikacij";14294;"Partner ima podano soglasje za uporabo osebnih podatkov pri testiranju";95;0;0;0
