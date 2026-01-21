@@ -179,7 +179,7 @@ def parse_prochar_csv(filepath: str) -> Dict[int, Property]:
 
 def generate_base_properties() -> str:
     """Generate BaseProperties abstract class."""
-    return '''package si.triglav.bp.properties;
+    return '''package si.triglav.common.propchar.properties;
 
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -215,12 +215,12 @@ public abstract class BaseProperties implements Serializable {
 def generate_property_class(prop: Property) -> str:
     """Generate Level 2 property class (extends BaseProperties)."""
     lines = []
-    lines.append("package si.triglav.bp.generated.properties;")
+    lines.append("package si.triglav.common.propchar.generated.properties;")
     lines.append("")
 
     # Imports
     imports = set()
-    imports.add("import si.triglav.bp.properties.BaseProperties;")
+    imports.add("import si.triglav.common.propchar.properties.BaseProperties;")
     for char in prop.characteristics:
         for f in char.fields:
             if f.java_type == 'BigDecimal':
@@ -264,6 +264,40 @@ def generate_property_class(prop: Property) -> str:
             lines.append(f"    }}")
             lines.append("")
 
+    # Add getCharValue() bridge method
+    lines.append("    /**")
+    lines.append("     * Bridge method for accessing characteristics by tp_character ID.")
+    lines.append("     *")
+    lines.append("     * <p><b>Use sparingly:</b> This method is provided for backward compatibility")
+    lines.append("     * and legacy code migration. Prefer using typed getters directly")
+    lines.append("     * (e.g., getStevilkaDokumenta() instead of getCharValue(7805)).</p>")
+    lines.append("     *")
+    lines.append("     * @param tpCharacter The characteristic type ID")
+    lines.append("     * @return The characteristic value, or null if not found")
+    lines.append("     */")
+    lines.append("    public Object getCharValue(Integer tpCharacter) {")
+    lines.append("        switch (tpCharacter) {")
+
+    # Generate case statements for each characteristic
+    for char in prop.characteristics:
+        # For multi-column characteristics, prefer the 'number' field
+        # Otherwise, use the first (and only) field
+        primary_field = None
+        for f in char.fields:
+            if f.column_type == 'number':
+                primary_field = f
+                break
+        if primary_field is None:
+            primary_field = char.fields[0]
+
+        getter_name = "get" + primary_field.field_name[0].upper() + primary_field.field_name[1:]
+        lines.append(f"            case {char.tp_character}: return this.{getter_name}();")
+
+    lines.append("            default: return null;")
+    lines.append("        }")
+    lines.append("    }")
+    lines.append("")
+
     lines.append("}")
     return "\n".join(lines)
 
@@ -274,9 +308,9 @@ def generate_leaf_class(prop: Property) -> str:
     simple_name = slovenian_to_class_name(prop.name)
 
     lines = []
-    lines.append("package si.triglav.bp.properties;")
+    lines.append("package si.triglav.common.propchar.properties;")
     lines.append("")
-    lines.append(f"import si.triglav.bp.generated.properties.{prop.class_name};")
+    lines.append(f"import si.triglav.common.propchar.generated.properties.{prop.class_name};")
     lines.append("")
     lines.append(f"/**")
     lines.append(f" * Concrete implementation for {prop.name}.")
@@ -302,13 +336,13 @@ def generate_mapper_class(prop: Property) -> str:
     leaf_class_name = slovenian_to_class_name(prop.name)
 
     lines = []
-    lines.append("package si.triglav.bp.generated.mappers;")
+    lines.append("package si.triglav.common.propchar.generated.mappers;")
     lines.append("")
     lines.append("import java.math.BigDecimal;")
     lines.append("import java.util.ArrayList;")
     lines.append("import java.util.List;")
     lines.append("")
-    lines.append(f"import si.triglav.bp.properties.{leaf_class_name};")
+    lines.append(f"import si.triglav.common.propchar.properties.{leaf_class_name};")
     lines.append("import si.triglav.common.SimpleDate;")
     lines.append("import si.triglav.common.vao.bp.PCharacteristicVAO;")
     lines.append("")
@@ -427,7 +461,7 @@ def generate_mapper_class(prop: Property) -> str:
 
 def generate_interface() -> str:
     """Generate PropertyMapper interface with generics."""
-    return '''package si.triglav.bp.generated.mappers;
+    return '''package si.triglav.common.propchar.generated.mappers;
 
 import java.util.List;
 import si.triglav.common.vao.bp.PCharacteristicVAO;
@@ -445,10 +479,228 @@ public interface PropertyMapper<T> {
 '''
 
 
+def generate_properties_package_info() -> str:
+    """Generate package-info.java for si.triglav.common.propchar.properties."""
+    return '''/**
+ * Primary entry point for typed property classes.
+ *
+ * <p>This package contains the 3-level property class architecture:</p>
+ * <ul>
+ *   <li><b>Level 1 (Base)</b>: {@link si.triglav.common.propchar.properties.BaseProperties}
+ *       - Abstract base class providing reflection-based equals(), hashCode(), and toString()</li>
+ *   <li><b>Level 3 (Leaf)</b>: 77 concrete classes like
+ *       {@link si.triglav.common.propchar.properties.OsebniDokument},
+ *       {@link si.triglav.common.propchar.properties.Telefon}, etc.</li>
+ * </ul>
+ *
+ * <h2>Usage Guidelines</h2>
+ *
+ * <p><b>Use leaf classes from this package</b> in your application code:</p>
+ * <pre>{@code
+ * // Correct - use leaf class
+ * OsebniDokument doc = PropertyMapperFactory.fromList(OsebniDokument.class, characteristics);
+ *
+ * // Wrong - don't use generated class directly
+ * OsebniDokument_7744 doc = PropertyMapperFactory.fromList(OsebniDokument_7744.class, characteristics);
+ * }</pre>
+ *
+ * <h2>Customization</h2>
+ *
+ * <p>Leaf classes in this package are <b>safe to edit</b> and will NOT be overwritten by the generator.
+ * Add custom business logic, validation, or derived getters to leaf classes:</p>
+ * <pre>{@code
+ * public class OsebniDokument extends OsebniDokument_7744 {
+ *     // Custom method - safe to add
+ *     public boolean isExpired() {
+ *         return getKonecVeljavnosti() != null &&
+ *                getKonecVeljavnosti().before(new SimpleDate());
+ *     }
+ * }
+ * }</pre>
+ *
+ * <h2>Related Packages</h2>
+ * <ul>
+ *   <li>{@link si.triglav.common.propchar.generated.properties} - Generated Level 2 classes (internal, do not use directly)</li>
+ *   <li>{@link si.triglav.common.propchar.generated.mappers} - Mappers for EAV conversion</li>
+ * </ul>
+ *
+ * @see si.triglav.common.propchar.generated.mappers.PropertyMapperFactory
+ * @see si.triglav.common.propchar.properties.BaseProperties
+ */
+package si.triglav.common.propchar.properties;
+'''
+
+
+def generate_generated_properties_package_info() -> str:
+    """Generate package-info.java for si.triglav.common.propchar.generated.properties."""
+    return '''/**
+ * Generated Level 2 typed property classes - DO NOT USE DIRECTLY.
+ *
+ * <p><b>WARNING</b>: This package contains auto-generated classes that are regenerated from
+ * {@code docs/prochar.csv}. These files will be <b>overwritten</b> whenever the generator runs.
+ * <b>DO NOT EDIT</b> any files in this package.</p>
+ *
+ * <h2>Architecture Role</h2>
+ *
+ * <p>This package contains Level 2 generated classes (e.g., {@code OsebniDokument_7744}) that:</p>
+ * <ul>
+ *   <li>Extend {@link si.triglav.common.propchar.properties.BaseProperties}</li>
+ *   <li>Provide typed fields for all characteristics (e.g., stevilkaDokumenta, vrstaDokumenta)</li>
+ *   <li>Provide getters/setters for type-safe access</li>
+ *   <li>Include {@code getCharValue(Integer tpCharacter)} bridge method for legacy compatibility</li>
+ * </ul>
+ *
+ * <h2>DO NOT Use These Classes Directly</h2>
+ *
+ * <p>Application code should <b>never import</b> classes from this package. Instead, use the
+ * leaf classes from {@link si.triglav.common.propchar.properties}:</p>
+ * <pre>{@code
+ * // Correct - use leaf class from parent package
+ * import si.triglav.common.propchar.properties.OsebniDokument;
+ * OsebniDokument doc = PropertyMapperFactory.fromList(OsebniDokument.class, characteristics);
+ *
+ * // Wrong - don't use generated class directly
+ * import si.triglav.common.propchar.generated.properties.OsebniDokument_7744;
+ * OsebniDokument_7744 doc = ...; // DON'T DO THIS
+ * }</pre>
+ *
+ * <h2>Class Naming Convention</h2>
+ *
+ * <p>Generated classes follow the pattern: {@code ClassName_TPPROPERTY}
+ * (e.g., {@code OsebniDokument_7744}, {@code Telefon_7741})
+ * where the numeric suffix is the TP_PROPERTY database identifier.</p>
+ *
+ * <h2>Generation</h2>
+ *
+ * <p>These classes are generated by running:</p>
+ * <pre>{@code
+ * python generate_classes.py
+ * }</pre>
+ *
+ * <p>The generator parses {@code docs/prochar.csv} which contains the database schema
+ * (TP_PROPERTY, TP_CHARACTER, column usage counts).</p>
+ *
+ * @see si.triglav.common.propchar.properties
+ * @see si.triglav.common.propchar.properties.BaseProperties
+ */
+package si.triglav.common.propchar.generated.properties;
+'''
+
+
+def generate_mappers_package_info() -> str:
+    """Generate package-info.java for si.triglav.common.propchar.generated.mappers."""
+    return '''/**
+ * Mappers for converting between EAV and typed property objects.
+ *
+ * <p>This package contains the conversion layer between the database EAV (Entity-Attribute-Value)
+ * representation ({@code List<PCharacteristicVAO>}) and strongly-typed property objects.</p>
+ *
+ * <h2>Primary Entry Point</h2>
+ *
+ * <p>Use {@link si.triglav.common.propchar.generated.mappers.PropertyMapperFactory} static methods
+ * for all conversions. Do NOT use individual mapper classes directly.</p>
+ *
+ * <h2>Core Operations</h2>
+ *
+ * <h3>1. Reading from Database (EAV to Typed Object)</h3>
+ * <pre>{@code
+ * List<PCharacteristicVAO> characteristics = property.getCharacteristics();
+ * OsebniDokument doc = PropertyMapperFactory.fromList(OsebniDokument.class, characteristics);
+ *
+ * // Access typed fields
+ * String docNumber = doc.getStevilkaDokumenta();
+ * SimpleDate expiry = doc.getKonecVeljavnosti();
+ * }</pre>
+ *
+ * <h3>2. Creating New Property (Typed Object to EAV)</h3>
+ * <pre>{@code
+ * OsebniDokument doc = new OsebniDokument();
+ * doc.setStevilkaDokumenta("12345678");
+ * doc.setKonecVeljavnosti(new SimpleDate(2030, 1, 1));
+ *
+ * // Convert to EAV for database INSERT
+ * Integer idPersProperty = 999; // from PersonPropertyVAO
+ * List<PCharacteristicVAO> characteristics = PropertyMapperFactory.toList(doc, idPersProperty);
+ * property.setCharacteristics(characteristics);
+ * }</pre>
+ *
+ * <h3>3. Updating Existing Property (In-Place Update)</h3>
+ * <pre>{@code
+ * // Load existing property
+ * PersonPropertyVAO property = ...; // from database
+ * List<PCharacteristicVAO> characteristics = property.getCharacteristics();
+ *
+ * // Convert to typed object, modify, and update in-place
+ * OsebniDokument doc = PropertyMapperFactory.fromList(OsebniDokument.class, characteristics);
+ * doc.setKonecVeljavnosti(new SimpleDate(2035, 1, 1));
+ *
+ * // Update characteristics list in-place (preserves IDs for database UPDATE)
+ * PropertyMapperFactory.updateList(doc, characteristics);
+ *
+ * // Save property back to database
+ * }</pre>
+ *
+ * <h2>Architecture</h2>
+ *
+ * <p>This package contains:</p>
+ * <ul>
+ *   <li><b>{@link si.triglav.common.propchar.generated.mappers.PropertyMapper}</b> -
+ *       Generic interface defining fromList(), toList(), and updateList() methods</li>
+ *   <li><b>{@link si.triglav.common.propchar.generated.mappers.PropertyMapperFactory}</b> -
+ *       Central registry and factory providing static convenience methods</li>
+ *   <li><b>77 mapper implementations</b> - One per property type (e.g., OsebniDokument_7744_Mapper)</li>
+ * </ul>
+ *
+ * <h2>Key Methods</h2>
+ *
+ * <table border="1" cellpadding="5">
+ *   <tr>
+ *     <th>Method</th>
+ *     <th>Purpose</th>
+ *     <th>Use Case</th>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code fromList<T>(Class<T>, List<PCharacteristicVAO>)}</td>
+ *     <td>EAV → Typed Object</td>
+ *     <td>Reading from database</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code toList<T>(T, Integer)}</td>
+ *     <td>Typed Object → EAV</td>
+ *     <td>Creating new property (INSERT)</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code updateList<T>(T, List<PCharacteristicVAO>)}</td>
+ *     <td>In-place update</td>
+ *     <td>Updating existing property (UPDATE, preserves IDs)</td>
+ *   </tr>
+ * </table>
+ *
+ * <h2>Benefits Over Direct EAV Access</h2>
+ *
+ * <ul>
+ *   <li><b>Type Safety</b>: Compile-time checking instead of runtime casting</li>
+ *   <li><b>Readability</b>: {@code doc.getDatumIzdaje()} vs {@code findFirstCharacteristic(7807)}</li>
+ *   <li><b>IDE Support</b>: Autocomplete, refactoring, find usages</li>
+ *   <li><b>Maintainability</b>: Field names document purpose (no magic numbers)</li>
+ * </ul>
+ *
+ * <h2>Generation</h2>
+ *
+ * <p><b>WARNING</b>: All files in this package are auto-generated. <b>DO NOT EDIT</b>.</p>
+ * <p>Regenerate by running: {@code python generate_classes.py}</p>
+ *
+ * @see si.triglav.common.propchar.generated.mappers.PropertyMapperFactory
+ * @see si.triglav.common.propchar.properties
+ */
+package si.triglav.common.propchar.generated.mappers;
+'''
+
+
 def generate_factory(properties: Dict[int, Property]) -> str:
     """Generate factory with generic fromList method."""
     lines = []
-    lines.append("package si.triglav.bp.generated.mappers;")
+    lines.append("package si.triglav.common.propchar.generated.mappers;")
     lines.append("")
     lines.append("import java.util.ArrayList;")
     lines.append("import java.util.HashMap;")
@@ -460,7 +712,7 @@ def generate_factory(properties: Dict[int, Property]) -> str:
     # Import all mappers
     for tp_property in sorted(properties.keys()):
         prop = properties[tp_property]
-        lines.append(f"import si.triglav.bp.generated.mappers.{prop.class_name}_Mapper;")
+        lines.append(f"import si.triglav.common.propchar.generated.mappers.{prop.class_name}_Mapper;")
 
     lines.append("")
     lines.append("/**")
@@ -585,34 +837,49 @@ def main():
     print("\nGenerating Java files...")
 
     # Level 1: BaseProperties (manual package)
-    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'properties', 'BaseProperties.java')
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'properties', 'BaseProperties.java')
     write_file(filepath, generate_base_properties())
 
     # Level 2: Generated property classes
     for prop in properties.values():
-        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'properties', f"{prop.class_name}.java")
+        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'properties', f"{prop.class_name}.java")
         write_file(filepath, generate_property_class(prop))
 
     # Level 3: Leaf classes (only if not exist)
     for prop in properties.values():
         simple_name = slovenian_to_class_name(prop.name)
-        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'properties', f"{simple_name}.java")
+        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'properties', f"{simple_name}.java")
         write_file(filepath, generate_leaf_class(prop), overwrite=False)
 
     # Mappers
     for prop in properties.values():
-        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'mappers', f"{prop.class_name}_Mapper.java")
+        filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'mappers', f"{prop.class_name}_Mapper.java")
         write_file(filepath, generate_mapper_class(prop))
 
     # Interface
-    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'mappers', 'PropertyMapper.java')
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'mappers', 'PropertyMapper.java')
     write_file(filepath, generate_interface())
 
     # Factory (always includes ALL properties for complete registry)
-    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'bp', 'generated', 'mappers', 'PropertyMapperFactory.java')
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'mappers', 'PropertyMapperFactory.java')
     write_file(filepath, generate_factory(all_properties))
 
-    total_files = 1 + len(properties) * 3 + 2  # BaseProperties + (prop + leaf + mapper) * N + interface + factory
+    # Package-info files
+    print("\nGenerating package-info.java files...")
+
+    # package-info for properties package (Level 1 + Level 3)
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'properties', 'package-info.java')
+    write_file(filepath, generate_properties_package_info())
+
+    # package-info for generated properties package (Level 2)
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'properties', 'package-info.java')
+    write_file(filepath, generate_generated_properties_package_info())
+
+    # package-info for mappers package
+    filepath = os.path.join(base_output_dir, 'si', 'triglav', 'common', 'propchar', 'generated', 'mappers', 'package-info.java')
+    write_file(filepath, generate_mappers_package_info())
+
+    total_files = 1 + len(properties) * 3 + 2 + 3  # BaseProperties + (prop + leaf + mapper) * N + interface + factory + 3 package-info
     print(f"\nDone! Generated {total_files} files.")
 
 
