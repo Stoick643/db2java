@@ -40,6 +40,26 @@ SETTER_MAP = {
 }
 
 
+def load_boolean_mappings(filepath: str) -> Dict[int, Dict[str, int]]:
+    """Load boolean characteristic mappings from CSV.
+    Returns: {tp_character: {"true": true_val, "false": false_val}}
+    """
+    mappings = {}
+    if not os.path.exists(filepath):
+        return mappings
+
+    with open(filepath, 'r', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        next(reader)  # Skip header
+        for row in reader:
+            if len(row) >= 3:
+                tp_char = int(row[0].strip())
+                true_val = int(row[1].strip())
+                false_val = int(row[2].strip())
+                mappings[tp_char] = {"true": true_val, "false": false_val}
+    return mappings
+
+
 @dataclass
 class CharacteristicField:
     """Represents a single field for a characteristic (may have multiple if multi-column)."""
@@ -54,6 +74,9 @@ class Characteristic:
     tp_character: int
     name: str
     fields: List[CharacteristicField] = field(default_factory=list)
+    is_boolean: bool = False
+    boolean_true_val: int = None
+    boolean_false_val: int = None
 
 
 @dataclass
@@ -101,12 +124,14 @@ def slovenian_to_class_name(name: str) -> str:
     return result if result else "Unknown"
 
 
-def parse_prochar_csv(filepath: str) -> Dict[int, Property]:
+def parse_prochar_csv(filepath: str, boolean_mappings: Dict[int, Dict[str, int]] = None) -> Dict[int, Property]:
     """
     Parse prochar.csv with count columns.
     Format: TP_PROPERTY;SIF_OPIS;TP_CHARACTER;SIF_OPIS;CNT_NUMBER;CNT_VALUE;CNT_DATE;CNT_DESC
     """
     properties: Dict[int, Property] = {}
+    if boolean_mappings is None:
+        boolean_mappings = {}
 
     with open(filepath, 'r', encoding='cp1250') as f:
         reader = csv.reader(f, delimiter=';')
@@ -156,17 +181,29 @@ def parse_prochar_csv(filepath: str) -> Dict[int, Property]:
 
                 char = Characteristic(tp_character=tp_character, name=char_name)
 
-                for col_type, _ in active_columns:
-                    if is_multi_column:
-                        field_name = f"{base_field_name}_{col_type}"
-                    else:
-                        field_name = base_field_name
+                # Check if this is a boolean characteristic
+                if tp_character in boolean_mappings:
+                    char.is_boolean = True
+                    char.boolean_true_val = boolean_mappings[tp_character]["true"]
+                    char.boolean_false_val = boolean_mappings[tp_character]["false"]
+                    # Override field type to Boolean (single field)
+                    char.fields = [CharacteristicField(
+                        field_name=base_field_name,
+                        java_type='Boolean',
+                        column_type='boolean'
+                    )]
+                else:
+                    for col_type, _ in active_columns:
+                        if is_multi_column:
+                            field_name = f"{base_field_name}_{col_type}"
+                        else:
+                            field_name = base_field_name
 
-                    char.fields.append(CharacteristicField(
-                        field_name=field_name,
-                        java_type=TYPE_MAP[col_type],
-                        column_type=col_type
-                    ))
+                        char.fields.append(CharacteristicField(
+                            field_name=field_name,
+                            java_type=TYPE_MAP[col_type],
+                            column_type=col_type
+                        ))
 
                 properties[tp_property].characteristics.append(char)
 
@@ -252,7 +289,11 @@ def generate_property_class(prop: Property) -> str:
     # Getters and setters
     for char in prop.characteristics:
         for f in char.fields:
-            getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
+            # Use "is" prefix for Boolean, "get" for others
+            if f.java_type == 'Boolean':
+                getter_name = "is" + f.field_name[0].upper() + f.field_name[1:]
+            else:
+                getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
             setter_name = "set" + f.field_name[0].upper() + f.field_name[1:]
 
             lines.append(f"    public {f.java_type} {getter_name}() {{")
@@ -290,7 +331,11 @@ def generate_property_class(prop: Property) -> str:
         if primary_field is None:
             primary_field = char.fields[0]
 
-        getter_name = "get" + primary_field.field_name[0].upper() + primary_field.field_name[1:]
+        # Use "is" prefix for Boolean, "get" for others
+        if primary_field.java_type == 'Boolean':
+            getter_name = "is" + primary_field.field_name[0].upper() + primary_field.field_name[1:]
+        else:
+            getter_name = "get" + primary_field.field_name[0].upper() + primary_field.field_name[1:]
         lines.append(f"            case {char.tp_character}: return this.{getter_name}();")
 
     lines.append("            default: return null;")
@@ -363,10 +408,15 @@ def generate_mapper_class(prop: Property) -> str:
 
     for char in prop.characteristics:
         lines.append(f"                case {char.tp_character}:")
-        for f in char.fields:
+        if char.is_boolean:
+            f = char.fields[0]
             setter_name = "set" + f.field_name[0].upper() + f.field_name[1:]
-            getter = GETTER_MAP[f.column_type]
-            lines.append(f"                    result.{setter_name}(pch.{getter});")
+            lines.append(f"                    result.{setter_name}(pch.getPch_number() != null && pch.getPch_number() == {char.boolean_true_val});")
+        else:
+            for f in char.fields:
+                setter_name = "set" + f.field_name[0].upper() + f.field_name[1:]
+                getter = GETTER_MAP[f.column_type]
+                lines.append(f"                    result.{setter_name}(pch.{getter});")
         lines.append("                    break;")
 
     lines.append("            }")
@@ -383,17 +433,28 @@ def generate_mapper_class(prop: Property) -> str:
     lines.append("")
 
     for char in prop.characteristics:
-        for f in char.fields:
-            getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
-            setter = SETTER_MAP[f.column_type]
-
+        if char.is_boolean:
+            f = char.fields[0]
+            getter_name = "is" + f.field_name[0].upper() + f.field_name[1:]
             lines.append(f"        if (obj.{getter_name}() != null) {{")
             lines.append(f"            PCharacteristicVAO pch = new PCharacteristicVAO();")
             lines.append(f"            pch.setId_pers_property(idPersProperty);")
             lines.append(f"            pch.setTp_character({char.tp_character});")
-            lines.append(f"            pch.{setter}(obj.{getter_name}());")
+            lines.append(f"            pch.setPch_number(obj.{getter_name}() ? {char.boolean_true_val} : {char.boolean_false_val});")
             lines.append(f"            result.add(pch);")
             lines.append(f"        }}")
+        else:
+            for f in char.fields:
+                getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
+                setter = SETTER_MAP[f.column_type]
+
+                lines.append(f"        if (obj.{getter_name}() != null) {{")
+                lines.append(f"            PCharacteristicVAO pch = new PCharacteristicVAO();")
+                lines.append(f"            pch.setId_pers_property(idPersProperty);")
+                lines.append(f"            pch.setTp_character({char.tp_character});")
+                lines.append(f"            pch.{setter}(obj.{getter_name}());")
+                lines.append(f"            result.add(pch);")
+                lines.append(f"        }}")
 
     lines.append("")
     lines.append("        return result;")
@@ -405,9 +466,14 @@ def generate_mapper_class(prop: Property) -> str:
     lines.append(f"    public void updateList({leaf_class_name} obj, List<PCharacteristicVAO> characteristics) {{")
 
     for char in prop.characteristics:
-        for f in char.fields:
-            getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
-            lines.append(f"        updateOrAdd(characteristics, {char.tp_character}, obj.{getter_name}(), \"{f.column_type}\");")
+        if char.is_boolean:
+            f = char.fields[0]
+            getter_name = "is" + f.field_name[0].upper() + f.field_name[1:]
+            lines.append(f"        updateOrAddBoolean(characteristics, {char.tp_character}, obj.{getter_name}(), {char.boolean_true_val}, {char.boolean_false_val});")
+        else:
+            for f in char.fields:
+                getter_name = "get" + f.field_name[0].upper() + f.field_name[1:]
+                lines.append(f"        updateOrAdd(characteristics, {char.tp_character}, obj.{getter_name}(), \"{f.column_type}\");")
 
     lines.append("    }")
     lines.append("")
@@ -433,6 +499,21 @@ def generate_mapper_class(prop: Property) -> str:
     lines.append("            PCharacteristicVAO pch = new PCharacteristicVAO();")
     lines.append("            pch.setTp_character(tpChar);")
     lines.append("            setValue(pch, value, type);")
+    lines.append("            list.add(pch);")
+    lines.append("        }")
+    lines.append("    }")
+    lines.append("")
+
+    # Helper: updateOrAddBoolean
+    lines.append("    private void updateOrAddBoolean(List<PCharacteristicVAO> list, int tpChar, Boolean value, int trueVal, int falseVal) {")
+    lines.append("        if (value == null) return;")
+    lines.append("        PCharacteristicVAO existing = findByTpCharacter(list, tpChar);")
+    lines.append("        if (existing != null) {")
+    lines.append("            existing.setPch_number(value ? trueVal : falseVal);")
+    lines.append("        } else {")
+    lines.append("            PCharacteristicVAO pch = new PCharacteristicVAO();")
+    lines.append("            pch.setTp_character(tpChar);")
+    lines.append("            pch.setPch_number(value ? trueVal : falseVal);")
     lines.append("            list.add(pch);")
     lines.append("        }")
     lines.append("    }")
@@ -803,11 +884,17 @@ def main():
     args = parser.parse_args()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(script_dir, 'docs', 'prochar.csv')
-    base_output_dir = os.path.join(script_dir, 'generated')
+    project_dir = os.path.dirname(script_dir)  # Go up from python/ to project root
+    csv_path = os.path.join(project_dir, 'docs', 'prochar.csv')
+    base_output_dir = os.path.join(project_dir, 'generated')
+
+    # Load boolean mappings
+    boolean_csv = os.path.join(project_dir, 'docs', 'booleans.csv')
+    boolean_mappings = load_boolean_mappings(boolean_csv)
+    print(f"Loaded {len(boolean_mappings)} boolean mappings")
 
     print(f"Parsing {csv_path}...")
-    all_properties = parse_prochar_csv(csv_path)
+    all_properties = parse_prochar_csv(csv_path, boolean_mappings)
 
     print(f"\nFound {len(all_properties)} properties")
 

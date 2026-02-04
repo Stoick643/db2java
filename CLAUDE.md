@@ -1,8 +1,9 @@
 # Project: db2java
 
 ## Overview
-Python generator that creates typed Java classes from DB2 EAV (Entity-Attribute-Value) pattern.
+Generator that creates typed Java classes from DB2 EAV (Entity-Attribute-Value) pattern.
 Converts `prochar.csv` database export into strongly-typed property classes with mappers.
+Available in Python and Kotlin implementations.
 
 ## Architecture (3-Level)
 ```
@@ -16,14 +17,32 @@ Level 3: OsebniDokument (customizable - SAFE TO EDIT)
     └── Add business logic here
 ```
 
-## Key Files
-- `generate_classes.py` - Python generator (single source of truth)
-- `docs/prochar.csv` - Database export (input)
-- `generated/` - All generated Java files (output)
+## Directory Structure
+```
+db2java/
+├── docs/                    # Input data
+│   ├── prochar.csv          # Database export
+│   └── booleans.csv         # Boolean characteristic mappings
+├── generated/               # Output (Java files)
+├── python/                  # Python generator
+│   ├── generate_classes.py
+│   └── test_generate_classes.py
+├── java/                    # Java generator (reference)
+└── kotlin/                  # Kotlin generator
+```
 
 ## Regenerate Classes
+
+### Python (primary)
 ```bash
-python generate_classes.py
+python python/generate_classes.py
+python python/generate_classes.py --tp 7744  # single property
+```
+
+### Kotlin
+```bash
+kotlinc kotlin/ -include-runtime -d generator.jar
+java -jar generator.jar
 ```
 
 ## Java Usage

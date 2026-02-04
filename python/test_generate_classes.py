@@ -118,7 +118,7 @@ class TestCodeGeneration(unittest.TestCase):
 
     def test_property_class_has_package(self):
         code = generate_property_class(self.test_prop)
-        self.assertIn("package si.triglav.bp.generated.properties;", code)
+        self.assertIn("package si.triglav.common.propchar.generated.properties;", code)
 
     def test_property_class_has_class_name(self):
         code = generate_property_class(self.test_prop)
